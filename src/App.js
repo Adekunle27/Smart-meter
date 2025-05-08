@@ -1,12 +1,23 @@
-// import logo from './logo.svg';
 import "./App.css";
+import BuyPower from "./BuyPower";
 import Dashboard from "./Dashboard";
+import Notifications from "./Notifications";
+import Settings from "./Settings";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Dashboard />
-    </div>
+    <Router>
+      <div className="App">
+        {" "}
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/buy-power" element={<BuyPower />} />
+          <Route path="/notifications" element={<Notifications />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -18,6 +18,8 @@ import {
 } from "recharts";
 import { RiStarOffFill } from "react-icons/ri";
 
+import { Link, useLocation } from "react-router-dom";
+
 const Container = styled.div`
   display: flex;
   font-family: "Segoe UI", sans-serif;
@@ -44,16 +46,34 @@ const Nav = styled.nav`
   flex: 1;
 `;
 
-const NavItem = styled.div`
+// const NavItem = styled.div`
+//   padding: 0.8rem 1rem;
+//   border-radius: 8px;
+//   display: flex;
+//   align-items: center;
+//   gap: 1rem;
+//   background: ${(props) => (props.active ? "#2c62f6" : "transparent")};
+//   color: ${(props) => (props.active ? "white" : "#333")};
+//   margin-bottom: 1rem;
+//   cursor: pointer;
+// `;
+
+const NavItem = styled(Link)`
+  text-decoration: none;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: ${(props) => (props.active ? "#2c62f6" : "transparent")};
-  color: ${(props) => (props.active ? "white" : "#333")};
+  background: ${(props) => (props.$active ? "#2c62f6" : "transparent")};
+  color: ${(props) => (props.$active ? "white" : "#333")};
   margin-bottom: 1rem;
   cursor: pointer;
+
+  &:hover {
+    background: rgb(79, 123, 243);
+    color: ${(props) => (props.$active ? "white" : "#333")};
+  }
 `;
 
 const Notification = styled.div`
@@ -387,21 +407,26 @@ const Dashboard = () => {
     { name: "", value: 500 },
   ];
 
+  const location = useLocation();
+
   return (
     <Container>
       <Sidebar>
         <Logo>⚡ OAKPARK POWER</Logo>
         <Nav>
-          <NavItem active>
+          <NavItem to="/" $active={location.pathname === "/"}>
             <FiHome /> Dashboard
           </NavItem>
-          <NavItem>
+          <NavItem to="/buy-power" $active={location.pathname === "/buy-power"}>
             <FiZap /> Buy Power
           </NavItem>
-          <NavItem>
+          <NavItem to="/settings" $active={location.pathname === "/settings"}>
             <FiSettings /> Settings
           </NavItem>
-          <NavItem>
+          <NavItem
+            to="/notifications"
+            $active={location.pathname === "/notifications"}
+          >
             <MdOutlineNotificationsNone /> Notifications{" "}
             <span
               style={{
@@ -441,7 +466,7 @@ const Dashboard = () => {
             <Break>
               <BreakImage>
                 <img
-                  src="https://i.ibb.co/TBmrW7zF/clay-elliot-mp-DV4xa-FP8c-unsplash.jpg"
+                  src="https://i.ibb.co/3VdzBmk/albert-dera-ILip77-Sbm-OE-unsplash.jpg"
                   alt="Profile"
                 />
               </BreakImage>
