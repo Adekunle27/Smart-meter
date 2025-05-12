@@ -20,6 +20,8 @@ import { RiStarOffFill } from "react-icons/ri";
 
 import { Link, useLocation } from "react-router-dom";
 
+import PageWrapper from "./PageWrapper";
+
 const Container = styled.div`
   display: flex;
   font-family: "Segoe UI", sans-serif;
@@ -69,6 +71,12 @@ const NavItem = styled(Link)`
   color: ${(props) => (props.$active ? "white" : "#333")};
   margin-bottom: 1rem;
   cursor: pointer;
+
+  transition: background 0.3s, transform 0.2s;
+
+  &:active {
+    transform: scale(0.95);
+  }
 
   &:hover {
     background: rgb(79, 123, 243);
@@ -410,129 +418,120 @@ const Dashboard = () => {
   const location = useLocation();
 
   return (
-    <Container>
-      <Sidebar>
-        <Logo>⚡ OAKPARK POWER</Logo>
-        <Nav>
-          <NavItem to="/" $active={location.pathname === "/"}>
-            <FiHome /> Dashboard
-          </NavItem>
-          <NavItem to="/buy-power" $active={location.pathname === "/buy-power"}>
-            <FiZap /> Buy Power
-          </NavItem>
-          <NavItem to="/settings" $active={location.pathname === "/settings"}>
-            <FiSettings /> Settings
-          </NavItem>
-          <NavItem
-            to="/notifications"
-            $active={location.pathname === "/notifications"}
-          >
-            <MdOutlineNotificationsNone /> Notifications{" "}
-            <span
-              style={{
-                marginLeft: "auto",
-                background: "red",
-                color: "white",
-                borderRadius: "50%",
-                padding: "1.7px 5px",
-                fontSize: "0.8rem",
-              }}
+    <PageWrapper>
+      <Container>
+        <Sidebar>
+          <Logo>⚡ OAKPARK POWER</Logo>
+          <Nav>
+            <NavItem to="/" $active={location.pathname === "/"}>
+              <FiHome /> Dashboard
+            </NavItem>
+            <NavItem
+              to="/buy-power"
+              $active={location.pathname === "/buy-power"}
             >
-              2
-            </span>
-          </NavItem>
-        </Nav>
-        <Notification>
-          <Logout>
-            <TbLogout /> Log out
-          </Logout>
-        </Notification>
-      </Sidebar>
+              <FiZap /> Buy Power
+            </NavItem>
+            <NavItem to="/settings" $active={location.pathname === "/settings"}>
+              <FiSettings /> Settings
+            </NavItem>
+            <NavItem
+              to="/notifications"
+              $active={location.pathname === "/notifications"}
+            >
+              <MdOutlineNotificationsNone /> Notifications{" "}
+              <span
+                style={{
+                  marginLeft: "auto",
+                  background: "red",
+                  color: "white",
+                  borderRadius: "50%",
+                  padding: "1.7px 5px",
+                  fontSize: "0.8rem",
+                }}
+              >
+                2
+              </span>
+            </NavItem>
+          </Nav>
+          <Notification>
+            <Logout>
+              <TbLogout /> Log out
+            </Logout>
+          </Notification>
+        </Sidebar>
 
-      <Main>
-        <Header>
-          <div>Hello, Adetunji Adebayo</div>
+        <Main>
+          <Header>
+            <div>Hello, Adetunji Adebayo</div>
 
-          <DashboardContainer>
-            <div>
-              <StyledSelect name="durations">
-                <option value="lastyear">In The Last Year</option>
-                <option value="7days">In The Last 7 Days</option>
-                <option value="30days">In The Last 30 Days</option>
-                <option value="4months">In The Last 4 Months</option>
-              </StyledSelect>
-            </div>
+            <DashboardContainer>
+              <div>
+                <StyledSelect name="durations">
+                  <option value="lastyear">In The Last Year</option>
+                  <option value="7days">In The Last 7 Days</option>
+                  <option value="30days">In The Last 30 Days</option>
+                  <option value="4months">In The Last 4 Months</option>
+                </StyledSelect>
+              </div>
 
-            <Break>
-              <BreakImage>
-                <img
-                  src="https://i.ibb.co/3VdzBmk/albert-dera-ILip77-Sbm-OE-unsplash.jpg"
-                  alt="Profile"
-                />
-              </BreakImage>
-              <Belowbreak>
-                <strong>Adetunji Adebayo</strong>
-                <small>Meter No: 12333243423</small>
-              </Belowbreak>
-            </Break>
-            <br />
-          </DashboardContainer>
-        </Header>
+              <Break>
+                <BreakImage>
+                  <img
+                    src="https://i.ibb.co/3VdzBmk/albert-dera-ILip77-Sbm-OE-unsplash.jpg"
+                    alt="Profile"
+                  />
+                </BreakImage>
+                <Belowbreak>
+                  <strong>Adetunji Adebayo</strong>
+                  <small>Meter No: 12333243423</small>
+                </Belowbreak>
+              </Break>
+              <br />
+            </DashboardContainer>
+          </Header>
 
-        <SummaryCards>
-          <Card>
-            <Fonthead>Power Used</Fonthead>
-            <Fontsub>100.80W/units</Fontsub>
-            <Align>
-              <FaArrowTrendUp style={{ color: "green" }} />{" "}
-              <small style={{ color: "green" }}>+2.11% in the last year</small>
-            </Align>
-          </Card>
-          <Card>
-            <Fonthead>Instantaneous Cost</Fonthead>
-            <Fontsub>150,000.4 Naira</Fontsub>
-            <Align>
-              <FaArrowTrendUp style={{ color: "green" }} />{" "}
-              <small style={{ color: "green" }}>+2.11% in the last year</small>
-            </Align>
-          </Card>
-          <Card>
-            <Fonthead>Energy Consumed</Fonthead>
-            <Fontsub>0.07 kWh</Fontsub>
-            <Align>
-              <FaArrowTrendUp style={{ color: "green" }} />{" "}
-              <small style={{ color: "green" }}>+2.11% in the last year</small>
-            </Align>
-          </Card>
-          <Card>
-            <Fonthead>Energy Balance</Fonthead>
-            <Fontsub>99.93 kWh</Fontsub>
-          </Card>
-        </SummaryCards>
+          <SummaryCards>
+            <Card>
+              <Fonthead>Power Used</Fonthead>
+              <Fontsub>100.80W/units</Fontsub>
+              <Align>
+                <FaArrowTrendUp style={{ color: "green" }} />{" "}
+                <small style={{ color: "green" }}>
+                  +2.11% in the last year
+                </small>
+              </Align>
+            </Card>
+            <Card>
+              <Fonthead>Instantaneous Cost</Fonthead>
+              <Fontsub>150,000.4 Naira</Fontsub>
+              <Align>
+                <FaArrowTrendUp style={{ color: "green" }} />{" "}
+                <small style={{ color: "green" }}>
+                  +2.11% in the last year
+                </small>
+              </Align>
+            </Card>
+            <Card>
+              <Fonthead>Energy Consumed</Fonthead>
+              <Fontsub>0.07 kWh</Fontsub>
+              <Align>
+                <FaArrowTrendUp style={{ color: "green" }} />{" "}
+                <small style={{ color: "green" }}>
+                  +2.11% in the last year
+                </small>
+              </Align>
+            </Card>
+            <Card>
+              <Fonthead>Energy Balance</Fonthead>
+              <Fontsub>99.93 kWh</Fontsub>
+            </Card>
+          </SummaryCards>
 
-        <UsageChart>
-          <h4>Power Usage</h4>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={powerUsageData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#007bff"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </UsageChart>
-
-        <PredictionAndPower>
-          <Prediction>
-            <h4>Usage Prediction</h4>
+          <UsageChart>
+            <h4>Power Usage</h4>
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={usagePredictData}>
+              <LineChart data={powerUsageData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -540,79 +539,101 @@ const Dashboard = () => {
                 <Line
                   type="monotone"
                   dataKey="value"
-                  stroke="#28a745"
+                  stroke="#007bff"
+                  // fill="#007bff"
+                  // fillOpacity={0.3}
                   strokeWidth={2}
                 />
               </LineChart>
             </ResponsiveContainer>
-          </Prediction>
+          </UsageChart>
 
-          <Appliances>
-            <h4>Active Appliances</h4>
-            <ul>
-              <ApplianceItem>
-                <div className="label">
-                  <span>Heating & AC - 1.47kWh</span>
-                  <span>50%</span>
-                </div>
-                <ProgressBar percent={50} />
-              </ApplianceItem>
+          <PredictionAndPower>
+            <Prediction>
+              <h4>Usage Prediction</h4>
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart data={usagePredictData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#28a745"
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </Prediction>
 
-              <ApplianceItem>
-                <div className="label">
-                  <span>Lighting - 1.47kWh</span>
-                  <span>25%</span>
-                </div>
-                <ProgressBar percent={25} />
-              </ApplianceItem>
+            <Appliances>
+              <h4>Active Appliances</h4>
+              <ul>
+                <ApplianceItem>
+                  <div className="label">
+                    <span>Heating & AC - 1.47kWh</span>
+                    <span>50%</span>
+                  </div>
+                  <ProgressBar percent={50} />
+                </ApplianceItem>
 
-              <ApplianceItem>
-                <div className="label">
-                  <span>Others - 1.47kWh</span>
-                  <span>10%</span>
-                </div>
-                <ProgressBar percent={10} />
-              </ApplianceItem>
-            </ul>
-          </Appliances>
+                <ApplianceItem>
+                  <div className="label">
+                    <span>Lighting - 1.47kWh</span>
+                    <span>25%</span>
+                  </div>
+                  <ProgressBar percent={25} />
+                </ApplianceItem>
 
-          <Voltage>
-            <h4>Voltage & Power Quality</h4>
-            <div className="chart-wrapper">
-              <PieChart width={200} height={120}>
-                <Pie
-                  data={data}
-                  startAngle={180}
-                  endAngle={0}
-                  innerRadius={50}
-                  outerRadius={70}
-                  dataKey="value"
-                  stroke="none"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                  ))}
-                </Pie>
-              </PieChart>
-              <div className="center-label">560V</div>
-            </div>
-            <div className="quality">Medium</div>
-          </Voltage>
-        </PredictionAndPower>
+                <ApplianceItem>
+                  <div className="label">
+                    <span>Others - 1.47kWh</span>
+                    <span>10%</span>
+                  </div>
+                  <ProgressBar percent={10} />
+                </ApplianceItem>
+              </ul>
+            </Appliances>
 
-        <PowerTip>
-          <h4>
-            <span>
-              <RiStarOffFill />{" "}
-            </span>
-            Power Tip
-          </h4>
-          <p style={{ fontSize: "0.9rem", color: "#333" }}>
-            Turn off your lights before you leave your house{" "}
-          </p>
-        </PowerTip>
-      </Main>
-    </Container>
+            <Voltage>
+              <h4>Voltage & Power Quality</h4>
+              <div className="chart-wrapper">
+                <PieChart width={200} height={120}>
+                  <Pie
+                    data={data}
+                    startAngle={180}
+                    endAngle={0}
+                    innerRadius={50}
+                    outerRadius={70}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                    ))}
+                  </Pie>
+                </PieChart>
+                <div className="center-label">560V</div>
+              </div>
+              <div className="quality">Medium</div>
+            </Voltage>
+          </PredictionAndPower>
+
+          <PowerTip>
+            <h4>
+              <span>
+                <RiStarOffFill />{" "}
+              </span>
+              Power Tip
+            </h4>
+            <p style={{ fontSize: "0.9rem", color: "#333" }}>
+              Turn off your lights before you leave your house{" "}
+            </p>
+          </PowerTip>
+        </Main>
+      </Container>
+    </PageWrapper>
   );
 };
 
