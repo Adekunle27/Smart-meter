@@ -6,8 +6,6 @@ import { MdOutlineNotificationsNone } from "react-icons/md";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import {
   CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -15,12 +13,17 @@ import {
   PieChart,
   Pie,
   Cell,
+  Area,
+  AreaChart,
 } from "recharts";
 import { RiStarOffFill } from "react-icons/ri";
+
+import logo from "./assets/Logo.jpg";
 
 import { Link, useLocation } from "react-router-dom";
 
 import PageWrapper from "./PageWrapper";
+import { HiAdjustments } from "react-icons/hi";
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +33,7 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 250px;
+  width: 310px;
   background: white;
   border-right: 1px solid #e5e5e5;
   display: flex;
@@ -42,23 +45,14 @@ const Logo = styled.h2`
   font-weight: bold;
   font-size: 1.3rem;
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const Nav = styled.nav`
   flex: 1;
 `;
-
-// const NavItem = styled.div`
-//   padding: 0.8rem 1rem;
-//   border-radius: 8px;
-//   display: flex;
-//   align-items: center;
-//   gap: 1rem;
-//   background: ${(props) => (props.active ? "#2c62f6" : "transparent")};
-//   color: ${(props) => (props.active ? "white" : "#333")};
-//   margin-bottom: 1rem;
-//   cursor: pointer;
-// `;
 
 const NavItem = styled(Link)`
   text-decoration: none;
@@ -131,10 +125,19 @@ const Card = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 `;
 
-// const ChartsSection = styled.div`
-//   display: grid;
-//   grid-template-columns: 2fr 1fr;
-//   gap: 1rem;
+// const UsageChart = styled.div`
+//   background: white;
+//   border-radius: 10px;
+//   padding: 0.1rem 1rem 1rem 1rem;
+//   margin-bottom: 1rem;
+//   height: 17rem;
+
+//   h4 {
+//     text-align: left;
+//     font-weight: 600;
+//     color: #4a5164;
+//     margin-bottom: 2rem; /* optional: gives space between title and chart */
+//   }
 // `;
 
 const UsageChart = styled.div`
@@ -148,7 +151,7 @@ const UsageChart = styled.div`
     text-align: left;
     font-weight: 600;
     color: #4a5164;
-    margin-bottom: 2rem; /* optional: gives space between title and chart */
+    margin-bottom: 2rem;
   }
 `;
 
@@ -289,7 +292,7 @@ const PowerTip = styled.div`
   text-align: left;
   margin-top: 0.588rem;
   padding: 0.2rem 1rem 0.78rem 1rem;
-  background: rgb(221, 226, 248);
+  background: white;
   border-radius: 10px;
   font-size: 0.9rem;
 
@@ -365,8 +368,34 @@ const BreakImage = styled.div`
   strong {
 `;
 
+// const StyledSelect = styled.select`
+//   padding: 0.6rem 1rem;
+//   border-radius: 8px;
+//   border: 1px solid #ccc;
+//   background-color: #fff;
+//   color: #333;
+//   font-size: 0.95rem;
+//   outline: none;
+//   cursor: pointer;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+//   transition: border 0.2s ease, box-shadow 0.2s ease;
+
+//   &:hover {
+//     border-color: #888;
+//   }
+
+//   &:focus {
+//     border-color: #007bff;
+//     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+//   }
+
+//   option {
+//     padding: 0.5rem;
+//   }
+// `;
+
 const StyledSelect = styled.select`
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 2rem 0.6rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   background-color: #fff;
@@ -376,6 +405,10 @@ const StyledSelect = styled.select`
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: border 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'); /* Increased arrow size to 16x16 */
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center; /* Still fits with the padding */
 
   &:hover {
     border-color: #888;
@@ -391,7 +424,49 @@ const StyledSelect = styled.select`
   }
 `;
 
+const BarWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-top: 0.5rem;
+`;
+
+// const Bar = styled.div`
+//   width: 10px;
+//   height: 20px;
+//   background-color: ${props => (props.filled ? '#0f6bff' : '#e0e0e0')};
+//   border-radius: 2px;
+// `;
+
+const Bar = styled.div.attrs((props) => ({
+  style: {
+    backgroundColor: props.filled ? "#0f6bff" : "#e0e0e0",
+  },
+}))`
+  width: 10px;
+  height: 20px;
+  border-radius: 2px;
+`;
+
 const Dashboard = () => {
+  const ApplianceItem = ({ label, percent }) => {
+    const filledBars = Math.round(percent / 10);
+    const totalBars = 10;
+
+    return (
+      <li style={{ marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <span>{label}</span>
+          <span>{percent}%</span>
+        </div>
+        <BarWrapper>
+          {Array.from({ length: totalBars }, (_, i) => (
+            <Bar key={i} filled={i < filledBars} />
+          ))}
+        </BarWrapper>
+      </li>
+    );
+  };
+
   const powerUsageData = [
     { name: "Jan", value: 300 },
     { name: "Feb", value: 600 },
@@ -421,10 +496,23 @@ const Dashboard = () => {
     <PageWrapper>
       <Container>
         <Sidebar>
-          <Logo>⚡ OAKPARK POWER</Logo>
+          <Logo>
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "25.69px", height: "28.09px" }}
+            />
+            OAKPARK POWER
+          </Logo>
           <Nav>
             <NavItem to="/" $active={location.pathname === "/"}>
               <FiHome /> Dashboard
+            </NavItem>
+            <NavItem
+              to="/power-control"
+              $active={location.pathname === "/power-control"}
+            >
+              <HiAdjustments /> Power Control
             </NavItem>
             <NavItem
               to="/buy-power"
@@ -531,20 +619,20 @@ const Dashboard = () => {
           <UsageChart>
             <h4>Power Usage</h4>
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={powerUsageData}>
+              <AreaChart data={powerUsageData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="value"
                   stroke="#007bff"
-                  // fill="#007bff"
-                  // fillOpacity={0.3}
+                  fill="#007bff"
+                  fillOpacity={0.13}
                   strokeWidth={2}
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           </UsageChart>
 
@@ -552,22 +640,23 @@ const Dashboard = () => {
             <Prediction>
               <h4>Usage Prediction</h4>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={usagePredictData}>
+                <AreaChart data={usagePredictData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Line
+                  <Area
                     type="monotone"
                     dataKey="value"
-                    stroke="#28a745"
+                    stroke="#007bff"
+                    fillOpacity={0.13}
                     strokeWidth={2}
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </Prediction>
 
-            <Appliances>
+            {/* <Appliances>
               <h4>Active Appliances</h4>
               <ul>
                 <ApplianceItem>
@@ -593,6 +682,15 @@ const Dashboard = () => {
                   </div>
                   <ProgressBar percent={10} />
                 </ApplianceItem>
+              </ul>
+            </Appliances> */}
+
+            <Appliances>
+              <h4>Active Appliances</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <ApplianceItem label="Heating & AC - 1.47kWh" percent={50} />
+                <ApplianceItem label="Lighting - 1.47kWh" percent={25} />
+                <ApplianceItem label="Others - 1.47kWh" percent={10} />
               </ul>
             </Appliances>
 

@@ -5,6 +5,7 @@ import { TbLogout } from "react-icons/tb";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 
 import { Link, useLocation } from "react-router";
+import { HiAdjustments } from "react-icons/hi";
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 250px;
+  width: 310px;
   background: white;
   border-right: 1px solid #e5e5e5;
   display: flex;
@@ -142,7 +143,7 @@ const BreakImage = styled.div`
 `;
 
 const StyledSelect = styled.select`
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 2rem 0.6rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   background-color: #fff;
@@ -152,6 +153,10 @@ const StyledSelect = styled.select`
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: border 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'); /* Increased arrow size to 16x16 */
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center; /* Still fits with the padding */
 
   &:hover {
     border-color: #888;
@@ -200,6 +205,12 @@ const BuyPower = () => {
         <Nav>
           <NavItem to="/" $active={location.pathname === "/"}>
             <FiHome /> Dashboard
+          </NavItem>
+          <NavItem
+            to="/power-control"
+            $active={location.pathname === "/power-control"}
+          >
+            <HiAdjustments /> Power Control
           </NavItem>
           <NavItem to="/buy-power" $active={location.pathname === "/buy-power"}>
             <FiZap /> Buy Power
